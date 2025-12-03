@@ -1,5 +1,5 @@
 ---
-title: "Exploring Global Governance"
+title: "Does Regulatory Quality Drive Prosperity?"
 subtitle: "An Interactive Data Visualization"
 author: "Shri Khalpada & Rob Moore"
 format:
