@@ -6,6 +6,10 @@ Team_Projects/AI_Readiness_Measures/GJID_join_database_w_definitions.xlsx
 
 # Downloaded data cache (fetched from HuggingFace at runtime)
 aei_data_cache.csv
+Anthropic_data_cache.csv
+GlobalFindexDatabase2025.csv
+Team_Projects/AI_Readiness_Measures/data/Anthropic_data_cache.csv
+Team_Projects/AI_Readiness_Measures/data/GJID_join_database_w_definitions.xlsx
 
 # Quarto generated files
 _quarto.yml
