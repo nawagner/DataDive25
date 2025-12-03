@@ -1,0 +1,138 @@
+---
+title: "Youth Skills"
+subtitle: "Challenge 6 • World Bank Data Dive 2025"
+author: "Team Upskilling Labs"
+date: "2025"
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    preview-links: auto
+    footer: "DataDive 2025 - World Bank"
+---
+
+## Youth Skills in 2035: Where Will Future Jobs Come From?
+
+Challenge 6 • World Bank Data Dive 2025  
+
+Team Upskilling Labs  
+- Madhu Jalan  
+- Ashley Nalikka  
+- Sandra Moscoso  
+- Jennifer Kemp  
+- Chidubem Nwabunze  
+- Tiveeda Stovall  
+- Gareth Digby  
+
+---
+
+## The Problem
+
+* By 2035, global labor markets will be radically different.  
+* Youth supply (15–24) shifts dramatically across regions.  
+* Skills, not just population, will decide who benefits from digital/AI jobs.
+
+**Key Question:**
+
+*Which youth skills will matter most in 2035 — and where will they be located?*
+
+---
+
+## Our Data Approach
+
+:::: {.columns}
+::: {.column width="40%"}
+List datasets merged:
+
+* UN population projections  
+* UN education shares  
+* World Bank attainment levels  
+* Projections to 2035  
+* Scenario 2 (medium variant)
+:::
+::: {.column width="60%"}
+Outputs:
+
+* Absolute youth by skill  
+* Regional profiles  
+* Gender gaps  
+* Country leaders  
+* Risk outliers
+:::
+::::
+
+
+---
+
+## The Global Pyramid of Skills (2035)
+
+Chart: **Global education pyramid**  
+Insight: Upper Secondary is the world’s dominant education level.
+
+---
+
+## Region Comparison: Skill Profiles
+
+Chart: **Regional heatmap**  
+Highlight:
+
+* Asia \= huge mid/high skill base  
+* Africa \= dual challenge (high low-skill \+ rising mid-skill)  
+* LAC/ECA \= modern skill distribution  
+* MENA \= rising mid-skill, lagging tertiary
+
+---
+
+## The Geography of Global Talent
+
+Chart: **Regional share of skilled youth (2035)**  
+Insight:
+
+* EAP \= 48% of global skilled youth  
+* Asia \= \~65% combined  
+* Talent is geographically concentrated
+
+---
+
+## Growth 2025 → 2035
+
+Chart: **Post-secondary & Upper secondary growth by region**  
+Insight:
+
+* SSA & MENA \= fast growth but low base  
+* EAP \= biggest absolute gains  
+* LAC/NOA stagnate
+
+---
+
+## Gender Shifts: Women Rising
+
+Chart: **Countries where young women \> men in post-secondary**  
+Insight:
+
+* Women surpass men in many major economies  
+* The “future skills gap” is increasingly male
+
+---
+
+## Country Leaders & Risk Outliers
+
+Two short lists:  
+**Leaders (Tertiary):** CHN, USA, EGY, RUS, IDN, BRA, MEX  
+**Outliers (No Education):** NGA, DZA, IRQ, AFG, ETH, etc.
+
+Insight:
+
+“Large populations ≠ large skilled populations.”
+
+---
+
+## So What? Policy Recommendations
+
+1. **Scale post-secondary vocational/digital tracks** in Africa \+ South Asia  
+2. **Invest in gender-equal talent pipelines** where women already lead  
+3. **Target global talent hubs** — Asia dominates the 2035 supply
+
+**“The future of jobs will be decided by where youth skills grow fastest — and our data shows exactly where that is.”**
+
+---  
