@@ -12,7 +12,6 @@ import pandas as pd
 import requests
 from io import StringIO
 from pathlib import Path
-from typing import Optional
 
 # HuggingFace URLs
 ANTHROPIC_URL = "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/main/release_2025_09_15/data/output/aei_enriched_claude_ai_2025-08-04_to_2025-08-11.csv"
@@ -21,41 +20,15 @@ FINDEX_URL = "https://huggingface.co/datasets/stablefusiondance/WorldBankDataDiv
 DATA_DIR = Path(__file__).parent / "data"
 
 
-def iso2_to_iso3(iso2: str) -> Optional[str]:
-    """Convert ISO-2 country code to ISO-3."""
-    # Common mappings (covers most countries in the datasets)
-    ISO2_TO_ISO3 = {
-        "AF": "AFG", "AL": "ALB", "DZ": "DZA", "AR": "ARG", "AM": "ARM",
-        "AU": "AUS", "AT": "AUT", "AZ": "AZE", "BH": "BHR", "BD": "BGD",
-        "BY": "BLR", "BE": "BEL", "BJ": "BEN", "BO": "BOL", "BA": "BIH",
-        "BW": "BWA", "BR": "BRA", "BG": "BGR", "BF": "BFA", "BI": "BDI",
-        "KH": "KHM", "CM": "CMR", "CA": "CAN", "CF": "CAF", "TD": "TCD",
-        "CL": "CHL", "CN": "CHN", "CO": "COL", "CG": "COG", "CD": "COD",
-        "CR": "CRI", "CI": "CIV", "HR": "HRV", "CY": "CYP", "CZ": "CZE",
-        "DK": "DNK", "DO": "DOM", "EC": "ECU", "EG": "EGY", "SV": "SLV",
-        "EE": "EST", "ET": "ETH", "FI": "FIN", "FR": "FRA", "GA": "GAB",
-        "GE": "GEO", "DE": "DEU", "GH": "GHA", "GR": "GRC", "GT": "GTM",
-        "GN": "GIN", "HT": "HTI", "HN": "HND", "HK": "HKG", "HU": "HUN",
-        "IS": "ISL", "IN": "IND", "ID": "IDN", "IR": "IRN", "IQ": "IRQ",
-        "IE": "IRL", "IL": "ISR", "IT": "ITA", "JM": "JAM", "JP": "JPN",
-        "JO": "JOR", "KZ": "KAZ", "KE": "KEN", "KR": "KOR", "KW": "KWT",
-        "KG": "KGZ", "LA": "LAO", "LV": "LVA", "LB": "LBN", "LR": "LBR",
-        "LY": "LBY", "LT": "LTU", "LU": "LUX", "MG": "MDG", "MW": "MWI",
-        "MY": "MYS", "ML": "MLI", "MT": "MLT", "MR": "MRT", "MU": "MUS",
-        "MX": "MEX", "MD": "MDA", "MN": "MNG", "ME": "MNE", "MA": "MAR",
-        "MZ": "MOZ", "MM": "MMR", "NA": "NAM", "NP": "NPL", "NL": "NLD",
-        "NZ": "NZL", "NI": "NIC", "NE": "NER", "NG": "NGA", "NO": "NOR",
-        "OM": "OMN", "PK": "PAK", "PA": "PAN", "PY": "PRY", "PE": "PER",
-        "PH": "PHL", "PL": "POL", "PT": "PRT", "QA": "QAT", "RO": "ROU",
-        "RU": "RUS", "RW": "RWA", "SA": "SAU", "SN": "SEN", "RS": "SRB",
-        "SL": "SLE", "SG": "SGP", "SK": "SVK", "SI": "SVN", "ZA": "ZAF",
-        "ES": "ESP", "LK": "LKA", "SD": "SDN", "SE": "SWE", "CH": "CHE",
-        "SY": "SYR", "TW": "TWN", "TJ": "TJK", "TZ": "TZA", "TH": "THA",
-        "TG": "TGO", "TN": "TUN", "TR": "TUR", "UG": "UGA", "UA": "UKR",
-        "AE": "ARE", "GB": "GBR", "US": "USA", "UY": "URY", "UZ": "UZB",
-        "VE": "VEN", "VN": "VNM", "YE": "YEM", "ZM": "ZMB", "ZW": "ZWE",
-    }
-    return ISO2_TO_ISO3.get(iso2.upper())
+def load_wau_data() -> pd.DataFrame:
+    """Load ChatGPT WAU share by GDP data."""
+    wau_path = DATA_DIR / "wau_share_by_gdp.csv"
+    if not wau_path.exists():
+        raise FileNotFoundError(
+            f"WAU data file not found at {wau_path}. "
+            "Ensure data/wau_share_by_gdp.csv exists."
+        )
+    return pd.read_csv(wau_path)
 
 
 def load_anthropic_data() -> pd.DataFrame:
@@ -76,12 +49,6 @@ def load_findex_data() -> pd.DataFrame:
     df = pd.read_csv(StringIO(response.text), low_memory=False)
     print(f"  Downloaded {len(df):,} rows")
     return df
-
-
-def load_wau_data() -> pd.DataFrame:
-    """Load ChatGPT WAU share by GDP data."""
-    wau_path = DATA_DIR / "wau_share_by_gdp.csv"
-    return pd.read_csv(wau_path)
 
 
 def get_claude_users(anthropic_df: pd.DataFrame) -> pd.DataFrame:
@@ -197,6 +164,14 @@ def load_ai_users_data(time_period: str = "May 2025") -> pd.DataFrame:
     findex_df = load_findex_data()
     wau_df = load_wau_data()
 
+    # Validate time period
+    valid_periods = wau_df['time_period'].unique().tolist()
+    if time_period not in valid_periods:
+        raise ValueError(
+            f"Invalid time_period '{time_period}'. "
+            f"Valid options: {valid_periods}"
+        )
+
     # Extract Claude users and GDP
     claude_df = get_claude_users(anthropic_df)
     gdp_df = get_gdp_per_capita(anthropic_df)
@@ -218,6 +193,10 @@ def load_ai_users_data(time_period: str = "May 2025") -> pd.DataFrame:
     combined['total_ai_users'] = combined['claude_users'] + combined['chatgpt_users']
     combined['ai_users_per_capita'] = combined['total_ai_users'] / combined['pop_adult']
     combined['ai_users_per_internet'] = combined['total_ai_users'] / combined['internet_users']
+
+    # Handle NaN values for countries without Findex data
+    combined['ai_users_per_capita'] = combined['ai_users_per_capita'].fillna(0)
+    combined['ai_users_per_internet'] = combined['ai_users_per_internet'].fillna(0)
 
     # Clean up
     result = combined[[
