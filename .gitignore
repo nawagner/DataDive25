@@ -1,11 +1,10 @@
 # Data files
 *.duckdb
-# LFS doesn't work for this public fork, so data directories are gitignored
-Team_Projects/AI_Readiness_Measures/data/
-Team_Projects/AI_Readiness_Measures/GJID_join_database_w_definitions.xlsx
 
 # Downloaded data cache (fetched from HuggingFace at runtime)
 aei_data_cache.csv
+Anthropic_data_cache.csv
+GlobalFindexDatabase2025.csv
 
 # Quarto generated files
 _quarto.yml
