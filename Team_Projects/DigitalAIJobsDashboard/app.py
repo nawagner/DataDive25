@@ -316,46 +316,46 @@ def get_year_range():
 def forecast_trends(df, x_col, color_col, forecast_years=5):
     """
     Forecast demand and supply trends for the next N years using linear regression.
-    
+
     Args:
         df: DataFrame with historical data
         x_col: Column name for x-axis (typically 'year')
         color_col: Column name for grouping (typically 'country_name')
         forecast_years: Number of years to forecast
-    
+
     Returns:
         DataFrame with forecast data
     """
     forecast_data = []
     max_year = df[x_col].max()
-    
+
     for group_value in df[color_col].unique():
         group_df = df[df[color_col] == group_value].copy()
         group_df = group_df.sort_values(x_col)
-        
+
         if len(group_df) < 2:
             continue
-        
+
         # Prepare data for regression
         X = group_df[[x_col]].values
         y_demand = group_df['avg_demand'].values
         y_supply = group_df['avg_supply'].values
-        
+
         # Fit linear regression models
         model_demand = LinearRegression()
         model_supply = LinearRegression()
-        
+
         try:
             model_demand.fit(X, y_demand)
             model_supply.fit(X, y_supply)
-            
+
             # Generate forecast years
             future_years = np.arange(max_year + 1, max_year + forecast_years + 1).reshape(-1, 1)
-            
+
             # Predict
             pred_demand = model_demand.predict(future_years)
             pred_supply = model_supply.predict(future_years)
-            
+
             # Create forecast dataframe
             for i, year in enumerate(future_years.flatten()):
                 forecast_data.append({
@@ -368,7 +368,7 @@ def forecast_trends(df, x_col, color_col, forecast_years=5):
         except:
             # Skip if regression fails
             continue
-    
+
     return pd.DataFrame(forecast_data)
 
 
@@ -378,7 +378,7 @@ def create_demand_supply_chart(df, x_col, color_col, title, include_forecast=Fal
     df_historical = df.copy()
     if 'is_forecast' not in df_historical.columns:
         df_historical['is_forecast'] = False
-    
+
     # Add forecast if requested
     if include_forecast:
         try:
@@ -392,7 +392,7 @@ def create_demand_supply_chart(df, x_col, color_col, title, include_forecast=Fal
             df_combined = df_historical
     else:
         df_combined = df_historical
-    
+
     # Melt data for Altair
     df_melted = df_combined.melt(
         id_vars=[x_col, color_col, 'is_forecast'],
@@ -412,21 +412,21 @@ def create_demand_supply_chart(df, x_col, color_col, title, include_forecast=Fal
         True: 'Forecast',
         False: 'Historical'
     })
-    
+
     # Separate historical and forecast data
     historical_data = df_melted[~df_melted['is_forecast']]
     forecast_data = df_melted[df_melted['is_forecast']]
-    
+
     # Create base chart for historical data
     base = alt.Chart(historical_data).encode(
         x=alt.X(f'{x_col}:O', title=x_col.replace('_', ' ').title()),
         y=alt.Y('value:Q', title='Index Value', scale=alt.Scale(zero=False)),
-        color=alt.Color('metric:N', 
-                       scale=alt.Scale(domain=['Demand', 'Supply'], 
+        color=alt.Color('metric:N',
+                       scale=alt.Scale(domain=['Demand', 'Supply'],
                                       range=['#1f77b4', '#ff7f0e']),
                        title='Metric'),
-        strokeDash=alt.StrokeDash('metric:N', 
-                                 scale=alt.Scale(domain=['Demand', 'Supply'], 
+        strokeDash=alt.StrokeDash('metric:N',
+                                 scale=alt.Scale(domain=['Demand', 'Supply'],
                                                 range=[[0], [5, 5]])),
         tooltip=[
             alt.Tooltip(f'{x_col}:N', title=x_col.replace('_', ' ').title()),
@@ -435,22 +435,22 @@ def create_demand_supply_chart(df, x_col, color_col, title, include_forecast=Fal
             alt.Tooltip('data_type:N', title='Type')
         ]
     )
-    
+
     # Historical lines with points
     historical_chart = base.mark_line(point=True, strokeWidth=2)
-    
+
     # Forecast lines (dashed, lighter)
     forecast_chart = None
     if not forecast_data.empty:
         forecast_base = alt.Chart(forecast_data).encode(
             x=alt.X(f'{x_col}:O', title=x_col.replace('_', ' ').title()),
             y=alt.Y('value:Q', title='Index Value', scale=alt.Scale(zero=False)),
-            color=alt.Color('metric:N', 
-                           scale=alt.Scale(domain=['Demand', 'Supply'], 
+            color=alt.Color('metric:N',
+                           scale=alt.Scale(domain=['Demand', 'Supply'],
                                           range=['#1f77b4', '#ff7f0e']),
                            title='Metric'),
-            strokeDash=alt.StrokeDash('metric:N', 
-                                     scale=alt.Scale(domain=['Demand', 'Supply'], 
+            strokeDash=alt.StrokeDash('metric:N',
+                                     scale=alt.Scale(domain=['Demand', 'Supply'],
                                                     range=[[0], [5, 5]])),
             strokeOpacity=alt.value(0.5),
             tooltip=[
@@ -461,7 +461,7 @@ def create_demand_supply_chart(df, x_col, color_col, title, include_forecast=Fal
             ]
         )
         forecast_chart = forecast_base.mark_line(point=True, strokeWidth=2, strokeDash=[5, 5], opacity=0.6)
-    
+
     # Combine charts
     if forecast_chart and not forecast_data.empty:
         # Add vertical line to separate historical from forecast
@@ -474,12 +474,12 @@ def create_demand_supply_chart(df, x_col, color_col, title, include_forecast=Fal
         ).encode(
             x=alt.X(f'{x_col}:O')
         )
-        
+
         chart = (historical_chart + forecast_chart + separator_line).properties(
             height=400,
             title=title + " (with 5-year forecast)"
         ).interactive()
-        
+
         # Add legend note
         chart = chart.resolve_scale(
             strokeDash='independent'
@@ -489,7 +489,7 @@ def create_demand_supply_chart(df, x_col, color_col, title, include_forecast=Fal
             height=400,
             title=title
         ).interactive()
-    
+
     return chart
 
 
@@ -725,13 +725,13 @@ def show_data_source_footer(sources=None, additional_info=""):
         "ILO Statistics",
         "Data360 Indicators"
     ]
-    
+
     sources_to_show = sources if sources else default_sources
-    
+
     footer_text = "**Data Sources:** " + " | ".join(sources_to_show)
     if additional_info:
         footer_text += f" | {additional_info}"
-    
+
     st.caption(footer_text)
 
 
@@ -789,7 +789,7 @@ def main():
     view_options = ["Country Trends", "Industry Trends", "Skill Trends", "Rising vs Lagging"]
     if MCP_AVAILABLE:
         view_options.append("MCP Server")
-    
+
     view = st.sidebar.radio(
         "Analysis View",
         view_options,
@@ -814,10 +814,10 @@ def main():
                 with col1:
                     # Toggle for forecast
                     show_forecast = st.checkbox("📈 Show 5-Year Forecast", value=True, key="country_forecast")
-                    
+
                     chart = create_demand_supply_chart(
-                        country_df, 
-                        'year', 
+                        country_df,
+                        'year',
                         'country_name',
                         'Demand vs Supply Trends by Country',
                         include_forecast=show_forecast
@@ -943,7 +943,7 @@ def main():
                     )
                     st.altair_chart(chart, use_container_width=True)
                     show_data_source_footer()
-                
+
                 with col2:
                     # Latest year comparison
                     latest_year = industry_df['year'].max()
@@ -961,7 +961,7 @@ def main():
                     )
                     st.altair_chart(bar_chart, use_container_width=True)
                     show_data_source_footer()
-                
+
                 # Country breakdown by industry
                 if not industry_by_country_df.empty:
                     st.subheader("📊 Industry Trends by Selected Countries")
@@ -990,7 +990,7 @@ def main():
                     )
                     st.altair_chart(grouped_chart, use_container_width=True)
                     show_data_source_footer()
-                    
+
                     # Show country breakdown table
                     with st.expander("📋 View Country-Industry Breakdown"):
                         display_df = latest_by_country[['country_name', 'industry', 'avg_demand', 'avg_supply', 'avg_gap']].rename(columns={
@@ -1042,12 +1042,12 @@ def main():
                     )
                     st.altair_chart(chart, use_container_width=True)
                     show_data_source_footer()
-                
+
                 with col2:
                     # Latest year comparison
                     latest_year = skill_df['year'].max()
                     latest_data = skill_df[skill_df['year'] == latest_year]
-                    
+
                     bar_chart = alt.Chart(latest_data).mark_bar().encode(
                         x=alt.X('skill_type:N', title='Skill Type'),
                         y=alt.Y('avg_gap:Q', title='Gap'),
@@ -1060,7 +1060,7 @@ def main():
                     )
                     st.altair_chart(bar_chart, use_container_width=True)
                     show_data_source_footer()
-                
+
                 # Country breakdown by skill
                 if not skill_by_country_df.empty:
                     st.subheader("📊 Skill Trends by Selected Countries")
@@ -1081,7 +1081,7 @@ def main():
                     )
                     st.altair_chart(grouped_chart, use_container_width=True)
                     show_data_source_footer()
-                    
+
                     # Show country breakdown table
                     with st.expander("📋 View Country-Skill Breakdown"):
                         display_df = latest_by_country[['country_name', 'skill_type', 'avg_demand', 'avg_supply', 'avg_gap']].rename(columns={
@@ -1124,7 +1124,7 @@ def main():
             chart = create_rising_lagging_map(rising_lagging_df)
             st.altair_chart(chart, use_container_width=True)
             show_data_source_footer()
-            
+
             # Map visualization
             st.subheader("🗺️ Geographic Distribution of Rising vs Lagging Countries")
             
@@ -1169,7 +1169,7 @@ def main():
                 
                 st.plotly_chart(fig, use_container_width=True)
                 show_data_source_footer()
-            
+
             # Summary by status
             st.subheader("Countries by Status")
             
@@ -1200,7 +1200,7 @@ def main():
                     'recent_supply': 'Recent Supply'
                 })
                 st.dataframe(display_df, use_container_width=True, hide_index=True)
-    
+
     elif view == "MCP Server":
         st.header("🔌 MCP Server - Data Source Integration")
         st.markdown("""
@@ -1776,7 +1776,7 @@ def main():
                     
                     if "fetch_function" in info:
                         st.code(f"data_fetcher.{info['fetch_function']}()", language="python")
-    
+
     # Footer
     st.markdown("---")
     st.markdown("""

@@ -158,7 +158,7 @@ dataset = load_dataset("Anthropic/EconomicIndex", "release_2025_09_15")
 - Labor market impacts
 - Public opinion on AI
 
-**Access Method:** 
+**Access Method:**
 - Public data access via [AI Index Public Data](https://hai.stanford.edu/ai-index/2025-ai-index-report)
 - Report downloads (PDF)
 - Data visualizations and datasets
@@ -189,7 +189,7 @@ dataset = load_dataset("Anthropic/EconomicIndex", "release_2025_09_15")
 - Regional variations in AI job markets
 - Supply and demand dynamics
 
-**Access Method:** 
+**Access Method:**
 - Annual reports (PDF downloads)
 - 2025 AI Jobs Barometer report
 - 2024 AI Jobs Barometer report (historical data)
@@ -239,7 +239,7 @@ dataset = load_dataset("Anthropic/EconomicIndex", "release_2025_09_15")
 - Skills transformation requirements
 - Regional economic impacts
 
-**Access Method:** 
+**Access Method:**
 - Research reports and articles
 - Data visualizations
 - Industry-specific analyses

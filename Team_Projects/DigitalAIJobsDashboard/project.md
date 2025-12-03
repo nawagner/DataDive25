@@ -10,7 +10,6 @@ Team DigitalAIJobsDashboard analyzed digital and AI job demand and supply trends
 - Nick Wagner
 - Maria Alejandra Zegarra
 
-
 ## Challenge Category
 
 **Category V: Toward New Insights on Job Trends**
