@@ -21,7 +21,6 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.linear_model import LinearRegression
-import sys
 
 # Import MCP client
 try:
@@ -31,8 +30,7 @@ except ImportError:
     MCP_AVAILABLE = False
     data_fetcher = None
 
-# Add AI_Readiness_Measures to path for import
-sys.path.insert(0, str(Path(__file__).parent.parent / "AI_Readiness_Measures"))
+# Import AI users data loader (local module)
 from load_ai_users_data import load_ai_users_data
 
 # Configuration
