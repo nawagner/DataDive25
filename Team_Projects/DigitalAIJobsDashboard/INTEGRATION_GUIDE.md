@@ -332,6 +332,50 @@ For questions about integration:
 
 ---
 
+## MCP Server Integration
+
+A Model Context Protocol (MCP) server has been created to provide programmatic access to all data sources.
+
+### Using the MCP Server
+
+The MCP server is located in `mcp_server/` directory and provides tools to fetch data from all sources.
+
+**Installation:**
+```bash
+cd mcp_server
+pip install -r requirements.txt
+```
+
+**Available Tools:**
+- `get_anthropic_economic_index` - Fetch Anthropic EconomicIndex dataset
+- `get_stanford_ai_index` - Get Stanford AI Index metrics
+- `get_world_bank_indicator` - Fetch World Bank indicator data
+- `get_itu_ict_data` - Get ITU ICT data
+- `get_pwc_ai_jobs_data` - Get PwC AI Jobs Barometer info
+- `get_yale_budget_lab_info` - Get Yale Budget Lab info
+- `get_mckinsey_generative_ai_info` - Get McKinsey info
+- `list_available_data_sources` - List all sources
+
+**Example Usage:**
+```python
+# See mcp_server/client_example.py for full examples
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+# Use the MCP server to fetch data
+# See mcp_server/integrate_with_dashboard.py for integration examples
+```
+
+**Integration with Dashboard:**
+```bash
+# Run integration script
+python mcp_server/integrate_with_dashboard.py
+```
+
+For more details, see `mcp_server/README.md`.
+
+---
+
 ## Last Updated
 
 January 2025
