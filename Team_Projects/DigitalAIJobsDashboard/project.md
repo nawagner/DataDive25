@@ -1,5 +1,5 @@
 # Digital/AI Jobs Demand & Supply Dashboard
-
+## PRESENTATION LINK : https://docs.google.com/presentation/d/13aCD62wRDEDHGBNqPs1Kwl6Kz-rbuxgxZpIkjR5V6L8/edit?usp=sharing
 ## Overview
 
 Team DigitalAIJobsDashboard analyzed digital and AI job demand and supply trends using World Bank data and built an interactive analytical dashboard using Streamlit to visualize where digital/AI job demand and supply are rising or lagging across countries, industries, and skill types. The tool allows users to compare employment trends, identify demand-supply gaps, and track how digital job markets are evolving over time. It helps policymakers, researchers, and stakeholders understand the dynamics of the digital labor market and identify opportunities and challenges in the transition to a digital economy.
