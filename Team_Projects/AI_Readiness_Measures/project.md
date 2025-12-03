@@ -33,6 +33,7 @@ The application is designed to be user-friendly, with interactive visualizations
 * [Anthropic Economic Index](https://huggingface.co/datasets/Anthropic/EconomicIndex/tree/main/release_2025_09_15)
 * [HOW PEOPLE USE CHATGPT](https://www.nber.org/system/files/working_papers/w34255/w34255.pdf)
     Figures 21, 22, 23
+* [Team Data Repository](https://huggingface.co/datasets/stablefusiondance/WorldBankDataDive2025/tree/main)
 
 ## Links:
 
