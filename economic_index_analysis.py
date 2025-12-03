@@ -16,15 +16,10 @@ import os
 
 # Configuration
 DATA_URL = "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/main/release_2025_09_15/data/output/aei_enriched_claude_ai_2025-08-04_to_2025-08-11.csv"
-CACHE_FILE = "aei_data_cache.csv"
 
 
-def download_data(use_cache=True):
+def download_data():
     """Download the Economic Index dataset from HuggingFace."""
-    if use_cache and os.path.exists(CACHE_FILE):
-        print(f"Loading cached data from {CACHE_FILE}")
-        return pd.read_csv(CACHE_FILE)
-
     print("Downloading Economic Index data from HuggingFace...")
     print(f"URL: {DATA_URL}")
 
@@ -32,10 +27,7 @@ def download_data(use_cache=True):
     response.raise_for_status()
 
     df = pd.read_csv(StringIO(response.text))
-
-    # Cache for future runs
-    df.to_csv(CACHE_FILE, index=False)
-    print(f"Data cached to {CACHE_FILE}")
+    print(f"Downloaded {len(df):,} rows")
 
     return df
 
@@ -308,8 +300,8 @@ def main():
     print("ANTHROPIC ECONOMIC INDEX - COUNTRY TRENDS ANALYSIS")
     print("="*60)
 
-    # Download data
-    df = download_data(use_cache=True)
+    # Download data from HuggingFace
+    df = download_data()
 
     # Explore dataset structure
     explore_data(df)
