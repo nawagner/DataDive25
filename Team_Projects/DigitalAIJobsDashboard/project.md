@@ -9,6 +9,7 @@ Team DigitalAIJobsDashboard analyzed digital and AI job demand and supply trends
 - Hussain Adeli
 - Nick Wagner
 - Maria Alejandra Zegarra
+- Samiksha Burkul
 
 ## Challenge Category
 
